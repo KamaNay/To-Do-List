@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <title>To Do List</title>
+    <link rel='stylesheet' href='style.css'>
+</head>
+
+<script>
+
+   /* var tasks = [];
+
+    onload = function () {
+        if (localStorage.getItem("nome")) {
+            tasks = JSON.parse(localStorage.getItem("nome"));
+
+            createLi();
+        }
+    }
+
+    function add() {
+        var task = document.getElementById("tarefa").value;
+
+        tasks.push(task);
+
+        localStorage.setItem("nome", JSON.stringify(tasks));
+
+        createLi();
+    }
+
+    function createLi() {
+        let list = "";
+
+        tasks.forEach((task => {
+            list += "<li>" + task + "</li>"
+        }));
+
+        document.getElementById("lista").innerHTML = list;
+        document.getElementById("tarefa").value = "";
+    }
+
+    function clean(){
+        localStorage.clear();
+
+        location.reload();
+    }*/
+
+    var tasks = [];
+
+    onload = function () {
+      if (localStorage.getItem("nome")) {
+        tasks = JSON.parse(localStorage.getItem("nome"));
+
+        createLi();
+      }
+    };
+    // essa função ficaria fora do onload.
+    function del(id) {
+      let nova_lista = [];
+      tasks.forEach((tarefa_atual) => {
+        if (tarefa_atual.id != id) {
+          // aqui eu adiciono todas as tarefas diferentes do id que foi clicado.
+          nova_lista.push(tarefa_atual);
+        }
+      });
+      // altero no localStorage
+
+      localStorage.setItem("nome", JSON.stringify(nova_lista));
+      // altero o array por esse novo array
+      tasks = nova_lista;
+      // altero as li na tela.
+      createLi();
+    }
+    function add() {
+      var task = document.getElementById("tarefa").value;
+      // veja que aqui agora eu passo um objeto
+      // Math.random() cria um número aleatório que usaremos como identificador das tarefas
+      tasks.push({ id: Math.random(), conteudo: task });
+      localStorage.setItem("nome", JSON.stringify(tasks));
+
+      createLi();
+    }
+
+    function createLi() {
+      let list = "";
+
+      // veja que agora nos temos uma forma diferente de passar o texto
+      // e passamos também o id para a função de delete.
+      tasks.forEach((task) => {
+        list +=
+          "<li>" +
+          task.conteudo +
+          "<span onclick=del(" +
+          task.id +
+          ") class=butaoDel>X</span>" +
+          "</li>";
+      });
+
+      document.getElementById("lista").innerHTML = list;
+    }
+
+
+
+</script>
+
+<body>
+
+    <div id="header">
+        <h1>My List</h1>
+        <input type="text" id="tarefa" placeholder="task">
+        <span onclick="add()" class="butao">Add</span>
+    </div>
+
+    <ul id="lista">
+    </ul>
+
+</body>
+
+</html>
